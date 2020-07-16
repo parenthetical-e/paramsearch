@@ -33,7 +33,7 @@ paramsearch.py grid example.csv --alpha='(0, 1, 10)' --beta='(1, 1000, 10)'
 To search these over a 10 by 100 grid while adding an index to distribute over 2 GPUs, run:
 
 ```bash
-paramsearch.py grid example.csv --num_gpu=2 --gpu_prefix='cuda' --alpha='(0, 1, 10)' --beta='(1, 1000, 100)'
+paramsearch.py grid example.csv --num_gpu=2 --gpu_prefix='cuda:' --alpha='(0, 1, 10)' --beta='(1, 1000, 100)'
 ```
 
 ## Uniform random search
