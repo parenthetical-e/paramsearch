@@ -60,7 +60,7 @@ def _save(name, table, head):
         writer.writerows(table)
 
 
-def grid(name, num_gpu=0, gpu_prefix='cuda:', **kwargs):
+def grid(name, num_gpu=0, gpu_prefix=None, **kwargs):
     """Grid parameter search."""
 
     # Sanity
@@ -82,7 +82,7 @@ def grid(name, num_gpu=0, gpu_prefix='cuda:', **kwargs):
 def normal(name,
            num_sample=1,
            num_gpu=0,
-           gpu_prefix='cuda:',
+           gpu_prefix=None,
            seed_value=None,
            **kwargs):
     """Gaussian parameter search."""
@@ -106,7 +106,7 @@ def normal(name,
 def uniform(name,
             num_sample=1,
             num_gpu=0,
-            gpu_prefix='cuda:',
+            gpu_prefix=None,
             seed_value=None,
             **kwargs):
     """Uniform parameter search."""
@@ -129,7 +129,7 @@ def uniform(name,
 def loguniform(name,
                num_sample=1,
                num_gpu=0,
-               gpu_prefix='cuda:',
+               gpu_prefix=None,
                seed_value=None,
                **kwargs):
     """Loguniform parameter search."""
