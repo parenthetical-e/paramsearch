@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import fire
 import numpy as np
 from scipy.stats import loguniform as sci_loguniform
@@ -13,12 +15,17 @@ def _gpu_check(num_gpu):
     return num_gpu
 
 
-def _build_table(values, num_gpu):
-    # then rearrange it into a nice csv/table
-    table = product(*values)
+def _build_table(keys, values, num_gpu, fmt, grid=False):
+    # Create the first table
+    if grid:
+        table = product(*values)
+    else:
+        table = zip(*values)
+
+    # Init the final table, which will hold metadata in addition
+    # to all the contents of the first table
     i_table = []
 
-    # The table depends on GPU use, so...
     # No GPU
     if num_gpu == 0:
         for i, t in enumerate(table):
@@ -28,7 +35,8 @@ def _build_table(values, num_gpu):
         if fmt is None:
             fmt = '%i,' + '%.6f,' * (len(keys) - 1) + '%.6f'
 
-    # Use GPU(s). Dividing the work equally between 'em.
+    # Yes GPU(s).
+    # !! Dividing the work equally between 'em. !!
     else:
         device_count = cycle(range(num_gpu))
         for i, t in enumerate(table):
@@ -38,7 +46,7 @@ def _build_table(values, num_gpu):
         if fmt is None:
             fmt = '%i,%i,' + '%.6f,' * (len(keys) - 1) + '%.6f'
 
-    # Form final table and save it.
+    # The final table parts are:
     return np.vstack(i_table), head, fmt
 
 
@@ -61,11 +69,11 @@ def grid(name, fmt=None, num_gpu=0, **kwargs):
         values.append(v)
 
     # Build the table and save it
-    table, head, fmt = _build_table(values, num_gpu)
+    table, head, fmt = _build_table(keys, values, num_gpu, fmt, grid=True)
     _save(name, table, head, fmt)
 
 
-def normal(name, fmt=None, num_gpu=0, seed_value=None, **kwargs):
+def normal(name, num_sample=1, fmt=None, num_gpu=0, seed_value=None, **kwargs):
     """Gaussian parameter search."""
 
     # Init
@@ -75,16 +83,21 @@ def normal(name, fmt=None, num_gpu=0, seed_value=None, **kwargs):
     keys = sorted(list(kwargs.keys()))
     values = []
     for k in keys:
-        loc, scale, n = kwargs[k]
-        v = prng.normal(loc=loc, scale=scale, size=n)
+        loc, scale = kwargs[k]
+        v = prng.normal(loc=loc, scale=scale, size=num_sample)
         values.append(v)
 
     # Build the table and save it
-    table, head, fmt = _build_table(values, num_gpu)
+    table, head, fmt = _build_table(keys, values, num_gpu, fmt)
     _save(name, table, head, fmt)
 
 
-def uniform(name, fmt=None, num_gpu=0, seed_value=None, **kwargs):
+def uniform(name,
+            num_sample=1,
+            fmt=None,
+            num_gpu=0,
+            seed_value=None,
+            **kwargs):
     """Uniform parameter search."""
 
     # Init
@@ -93,28 +106,42 @@ def uniform(name, fmt=None, num_gpu=0, seed_value=None, **kwargs):
     keys = sorted(list(kwargs.keys()))
     values = []
     for k in keys:
-        start, stop, n = kwargs[k]
-        v = prng.uniform(start, stop, n)
+        start, stop = kwargs[k]
+        v = prng.uniform(start, stop, num_sample)
         values.append(v)
 
     # Build the table and save it
-    table, head, fmt = _build_table(values, num_gpu)
+    table, head, fmt = _build_table(keys, values, num_gpu, fmt)
     _save(name, table, head, fmt)
 
 
-def loguniform(name, fmt=None, num_gpu=0, seed_value=None, **kwargs):
+def loguniform(name,
+               num_sample=1,
+               fmt=None,
+               num_gpu=0,
+               seed_value=None,
+               **kwargs):
     """Loguniform parameter search."""
 
     keys = sorted(list(kwargs.keys()))
     values = []
     for k in keys:
-        start, stop, n = kwargs[k]
-        v = sci_loguniform.rvs(start, stop, size=n,
+        # Get range
+        start, stop = kwargs[k]
+
+        # lognormal is not def for exactly zero.
+        if np.isclose(start, 0.0):
+            start += np.finfo(np.float).eps
+
+        # Sample
+        v = sci_loguniform.rvs(start,
+                               stop,
+                               size=num_sample,
                                random_state=seed_value).tolist()
         values.append(v)
 
     # Build the table and save it
-    table, head, fmt = _build_table(values, num_gpu)
+    table, head, fmt = _build_table(keys, values, num_gpu, fmt)
     _save(name, table, head, fmt)
 
 
