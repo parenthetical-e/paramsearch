@@ -53,7 +53,6 @@ def _build_table(keys, values, num_gpu, gpu_prefix, grid=False):
 
 
 def _save(name, table, head):
-    # np.savetxt(name, table, delimiter=",", header=head, fmt=fmt, comments="")
     with open(name, mode='a+') as handle:
         writer = csv.writer(handle)
         writer.writerow(head)
