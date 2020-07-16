@@ -50,6 +50,8 @@ To search these 5000 loguniform random samples, run:
 paramsearch.py loguniform example.csv --num_samples=5000 --alpha='(0, 1)' --beta='(1, 100)'
 ```
 
+Note: A range of (0-1) is probably not what you want for a loguniform search.
+
 ## Normal random search
 To search these 20 normal samples where the first entry is the mean and second is the standard deviation (M, SD), run:
 
