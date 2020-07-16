@@ -19,7 +19,7 @@ pip install .
 paramsearch.py [OPTION] --help
 ```
 
-TO show you how each option works in practice let's start off in assuming we have two hyperparameters that we want to explore, over range.
+To see how each option works in practice let's start off in assuming we have two hyperparameters that we want to explore, over range.
 1. --alpha (0, 1)
 2. --beta (1, 100)
 
