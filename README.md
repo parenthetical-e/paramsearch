@@ -19,7 +19,7 @@ pip install .
 paramsearch.py [OPTION] --help
 ```
 
-To see how each option works in practice, let's start off in assuming we have two hyperparameters.
+To see how each option works in practice, let's start off with two parameters.
 1. --alpha (0, 1)
 2. --beta (1, 1000)
 
