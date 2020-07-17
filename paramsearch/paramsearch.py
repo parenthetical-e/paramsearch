@@ -53,7 +53,7 @@ def _build_table(keys, values, num_gpu, gpu_prefix, grid=False):
 
 
 def _save(name, table, head):
-    with open(name, mode='a+') as handle:
+    with open(name, mode='w') as handle:
         writer = csv.writer(handle)
         writer.writerow(head)
         writer.writerows(table)
