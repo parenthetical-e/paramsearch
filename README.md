@@ -30,21 +30,21 @@ To search over a 10 by 10 grid, run:
 paramsearch.py grid example.csv --alpha='(0, 1, 10)' --beta='(1, 1000, 10)'
 ```
 
-To search these over a 10 by 100 grid while adding an index to distribute over 2 GPUs, run:
+To search over a 10 by 100 grid, while adding an index to distribute over 2 GPUs, run:
 
 ```bash
 paramsearch.py grid example.csv --num_gpu=2 --gpu_prefix='cuda:' --alpha='(0, 1, 10)' --beta='(1, 1000, 100)'
 ```
 
 ## Uniform random search
-To search these 100 uniform random samples, run:
+To search over 100 uniform random samples, run:
 
 ```bash
 paramsearch.py uniform example.csv --num_samples=100 --alpha='(0, 1)' --beta='(1, 100)'
 ```
 
 ## Loguniform random search
-To search these 5000 loguniform random samples, run:
+To search over 5000 loguniform random samples, run:
 
 ```bash
 paramsearch.py loguniform example.csv --num_samples=5000 --alpha='(0, 1)' --beta='(1, 100)'
@@ -53,8 +53,10 @@ paramsearch.py loguniform example.csv --num_samples=5000 --alpha='(0, 1)' --beta
 Note: A range of (0-1) is probably not what you want for a loguniform search.
 
 ## Normal random search
-To search these 20 normal samples where the first entry is the mean and second is the standard deviation (M, SD), run:
+To search over 20 normal samples run: 
 
 ```bash
 paramsearch.py normal example.csv --num_samples=20 --alpha='(0, 1)' --beta='(1, 100)'
 ```
+
+Note: the interface is different. The first entry is the mean, and the second is the standard deviation (M, SD).
