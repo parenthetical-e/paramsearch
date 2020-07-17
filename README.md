@@ -36,14 +36,14 @@ To search over a 10 by 100 grid, while adding an index to distribute over 2 GPUs
 paramsearch.py grid example.csv --num_gpu=2 --gpu_prefix='cuda:' --alpha='(0, 1, 10)' --beta='(1, 1000, 100)'
 ```
 
-## Uniform random search
+## Uniform search
 To search over 100 uniform random samples, run:
 
 ```bash
 paramsearch.py uniform example.csv --num_samples=100 --alpha='(0, 1)' --beta='(1, 100)'
 ```
 
-## Loguniform random search
+## Loguniform search
 To search over 5000 loguniform random samples, run:
 
 ```bash
@@ -52,7 +52,7 @@ paramsearch.py loguniform example.csv --num_samples=5000 --alpha='(0, 1)' --beta
 
 Note: A range of (0-1) is probably not what you want for a loguniform search.
 
-## Normal random search
+## Normal search
 To search over 20 normal samples run: 
 
 ```bash
